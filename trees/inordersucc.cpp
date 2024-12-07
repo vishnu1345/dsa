@@ -39,6 +39,7 @@ void insert(Node* &root , int d){
     }
 }
 
+
 void inorder(Node* root){
     if(root==NULL){
         return ;
@@ -49,51 +50,48 @@ void inorder(Node* root){
     inorder(root->right);
 }
 
-Node* miniel(Node* root){
-   Node* temp = root;
-
-   
-   while(temp->left!=NULL){
-    temp = temp->left;
-   }
-
-   return temp;
-}
-
-Node* getSucc(Node* root , int target){
-    if(root->data==target && root->right!=NULL){
-        return miniel(root->right);
-    }
-
-    Node* curr = root;
+Node* inordersucc(Node* root , int target){
+    Node* temp = root;
     Node* succ = NULL;
 
-    while(curr){
-        if(target<curr->data){
-            succ = curr;
-            curr = curr->left;
+    while(temp!=NULL){
+        if(temp->data<=target){
+            temp = temp->right;
         }
         else{
-            curr = curr->right;
+            succ = temp;
+            temp = temp->left;
         }
-
-        return succ;
     }
+
+    return succ;
 }
 
-int main(){
+int main() {
     Node* root = NULL;
 
-    insert(root , 10);
-    insert(root , 11);
-    insert(root , 9);
-    insert(root , 12);
-    insert(root , 13);
-    insert(root , 5);
+    // Insert elements into the binary search tree
+    insert(root, 50);
+    insert(root, 30);
+    insert(root, 70);
+    insert(root, 20);
+    insert(root, 40);
+    insert(root, 60);
+    insert(root, 80);
 
+    // Perform inorder traversal to display the elements in sorted order
+    cout << "Inorder Traversal of the BST: ";
     inorder(root);
+    cout << endl;
 
-    cout<<endl;
+    // Find the inorder successor of a target node
+    int target = 20;
+    Node* successor = inordersucc(root, target);
+    if (successor) {
+        cout << "Inorder Successor of " << target << " is: " << successor->data << endl;
+    } else {
+        cout << "Inorder Successor of " << target << " does not exist." << endl;
+    }
 
-
+    return 0;
 }

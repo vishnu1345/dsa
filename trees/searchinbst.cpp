@@ -39,7 +39,6 @@ void insert(Node* &root , int d){
     }
 }
 
-
 void inorder(Node* root){
     if(root==NULL){
         return ;
@@ -50,46 +49,53 @@ void inorder(Node* root){
     inorder(root->right);
 }
 
-Node* getpre(Node* root , int target){
+bool search(Node* root , int target){
+    if(root==NULL){
+        return false;
+    }
+
+    if(root->data==target){
+        return true;
+    }
+    else if(root->data<target){
+        return search(root->right , target);
+    }
+    else return search(root->left , target);
+   
+}
+
+bool search(Node* root , int target){
     Node* temp = root;
-    Node* pred = NULL;
 
     while(temp!=NULL){
-        if(temp->data<target){
-            pred= temp;
+        if(temp->data==target){
+            return true;
+            // break;
+        }
+        else if(root->data<target){
             temp = temp->right;
         }
         else temp = temp->left;
     }
-
-    return pred;
+    return false;
 }
 
-int main() {
+int main(){
     Node* root = NULL;
 
-    // Insert elements into the binary search tree
-    insert(root, 50);
-    insert(root, 30);
-    insert(root, 70);
-    insert(root, 20);
-    insert(root, 40);
-    insert(root, 60);
-    insert(root, 80);
+    insert(root , 10);
+    insert(root , 11);
+    insert(root , 9);
+    insert(root , 12);
+    insert(root , 13);
+    insert(root , 5);
 
-    // Perform inorder traversal to display the elements in sorted order
-    cout << "Inorder Traversal of the BST: ";
     inorder(root);
-    cout << endl;
 
-    // Find the inorder predecessor of a target node
-    int target = 40;
-    Node* predecessor = getpre(root, target);
-    if (predecessor) {
-        cout << "Inorder Predecessor of " << target << " is: " << predecessor->data << endl;
-    } else {
-        cout << "Inorder Predecessor of " << target << " does not exist." << endl;
-    }
+    cout<<endl;
 
-    return 0;
+    cout<<search(root , 12)<<endl;
+    cout<<search(root , 5)<<endl;
+    cout<<search(root , 6)<<endl;
+    cout<<search(root , 9)<<endl;
 }
